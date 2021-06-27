@@ -10,36 +10,53 @@ const Usuario = () => {
 
     //Añadir Usuario
     const addUsuario = async (usuario) =>{
-        await db.collection('TBL_USUARIO').doc().set(usuario)
-        alert('Se añadio correctamente el usuario');
+        try{
+            await db.collection('TBL_USUARIO').doc().set(usuario)
+            alert('Se añadio correctamente el usuario');
+        }catch(error){
+            console.error(error);
+        }
+        
     }
 
 
     //Editar Usuario
     const editarUsuario = async (usuario) =>{
-        await db.collection('TBL_USUARIO').doc(idActual).update(usuario)
-        alert('Se edito correctamente el usuario');
-        setIdActual('');
+        try{
+            await db.collection('TBL_USUARIO').doc(idActual).update(usuario)
+            alert('Se edito correctamente el usuario');
+            setIdActual('');
+        }catch(error){
+            console.error(error);
+        }        
     }
 
 
     //Eliminar Usuario
     const eliminarUsuario = async (id) =>{
         if(window.confirm('seguro de quieres eliminar?')){
-            await db.collection('TBL_USUARIO').doc(id).delete();
-            alert('Se elimino correctamente el usuario');
+            try{
+                await db.collection('TBL_USUARIO').doc(id).delete();
+                alert('Se elimino correctamente el usuario');
+            }catch(error){
+                console.error(error);
+            }  
         }
     }
 
     //cargar datos reporte
     const getUsuarios = async ()=>{
-        db.collection('TBL_USUARIO').onSnapshot((respuesta)=>{
-            const usuarios = [];
-            respuesta.forEach((r) =>{
-                usuarios.push({...r.data(), id_usuario:r.id});
+        try{
+            db.collection('TBL_USUARIO').onSnapshot((respuesta)=>{
+                const usuarios = [];
+                respuesta.forEach((r) =>{
+                    usuarios.push({...r.data(), id_usuario:r.id});
+                });
+                setUsuarios(usuarios);
             });
-            setUsuarios(usuarios);
-        });
+        }catch(error){
+            console.error(error);
+        }  
     }
     useEffect(()=>{
         getUsuarios()
@@ -47,10 +64,11 @@ const Usuario = () => {
 
 
     return ( 
-    <>
+    <div className="col-md-8 p-2">
         <UsuarioFormulario {...{addUsuario,editarUsuario,idActual,usuarios}}
         />
-        <div>
+        <div className="col-md-8 p-2">        
+        <h1>Listado de Usuarios</h1>
         <table className="table">
             <thead className="thead-dark">
             <tr>
@@ -79,8 +97,8 @@ const Usuario = () => {
             
             </tbody>
         </table>
+        </div>
     </div>
-    </>
     );
 }
  
