@@ -1,53 +1,69 @@
-import React from 'react'
+import React,{useState} from 'react'
 
 const UsuarioFormulario = () => {
 
+    const usuarioInicial={
+        id_usuario: '',
+        nombre_usuario: '',
+        cedula_usuario: '',
+        telefono_usuario: '',
+        mail_usuario:''
+    }
+    const [usuario,setUsuario] = useState(usuarioInicial)
+
     const accionBotonGuardar = e => {
-        console.log(e);
+        e.preventDefault();
+        console.log(e.target.value);
+    }
+
+    const manejaCambiosInputs = e =>{        
+        const {name,value} = e.target;
+        console.log(name,value);
+        setUsuario({...usuario, [name]: value})
     }
 
 
     return ( 
         
         <form onSubmit={accionBotonGuardar}>
-            <div class="form-group">
+            <div className="form-group">
                 <label>Usuario</label>
                 <input  type="text" 
                         className="form-control" 
                         placeholder="Nombre del usuario" 
-                        value=""
-                        name="usuario"          
-                        />                
+                        value={usuario.nombre_usuario}
+                        name="nombre_usuario"          
+                        onChange={manejaCambiosInputs}/>                
             </div>
-            <div class="form-group">
+            <div className="form-group">
                 <label>Cédula</label>
                 <input  type="text" 
                         className="form-control" 
                         placeholder="Cédula de identidad" 
-                        value=""
-                        name="cedula"          
-                        />                
+                        value={usuario.cedula_usuario}
+                        name="cedula_usuario"          
+                        onChange={manejaCambiosInputs}/>                 
             </div>
-            <div class="form-group">
+            <div className="form-group">
                 <label>Teléfono</label>
                 <input  type="text" 
                         className="form-control" 
                         placeholder="Número de celular" 
-                        value=""
-                        name="telefono"          
-                        />                
+                        value={usuario.telefono_usuario}
+                        name="telefono_usuario"          
+                        onChange={manejaCambiosInputs}/>                  
             </div>
-            <div class="form-group">
+            <div className="form-group">
                 <label>Email</label>
                 <input  type="email" 
                         className="form-control" 
                         placeholder="Correo electronico" 
-                        value=""
-                        name="mail"          
-                        />                
+                        value={usuario.mail_usuario}
+                        name="mail_usuario"          
+                        onChange={manejaCambiosInputs}/>                 
             </div>
             
-            <button type="button" className="btn btn-success btn-block">
+            <button className="btn btn-primary btn-block">
                 Guardar
             </button>
             
