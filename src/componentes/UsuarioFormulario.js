@@ -3,7 +3,6 @@ import React,{useState} from 'react'
 const UsuarioFormulario = (props) => {
 
     const usuarioInicial={
-        id_usuario: '',
         nombre_usuario: '',
         cedula_usuario: '',
         telefono_usuario: '',
@@ -12,9 +11,9 @@ const UsuarioFormulario = (props) => {
     const [usuario,setUsuario] = useState(usuarioInicial)
 
     const accionBotonGuardar = e => {
-        e.preventDefault();
-        console.log(e.target.value);
+        e.preventDefault();        
         props.addUsuario(usuario);
+        setUsuario({...usuarioInicial})
     }
 
     const manejaCambiosInputs = e =>{        
