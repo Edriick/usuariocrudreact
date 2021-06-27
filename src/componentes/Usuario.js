@@ -1,7 +1,19 @@
 import React from 'react'
+import UsuarioFormulario from './UsuarioFormulario';
+
 
 const Usuario = () => {
-    return ( <h1>Usuario</h1> );
+
+    //Añadir Usuario
+    const addUsuario = (usuario) =>{
+        console.log('add ',usuario);
+    }
+    return ( 
+    
+        <UsuarioFormulario addUsuario={addUsuario}
+        />
+        
+    );
 }
  
 export default Usuario;

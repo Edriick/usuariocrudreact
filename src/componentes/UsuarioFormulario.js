@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
 
-const UsuarioFormulario = () => {
+const UsuarioFormulario = (props) => {
 
     const usuarioInicial={
         id_usuario: '',
@@ -14,12 +14,14 @@ const UsuarioFormulario = () => {
     const accionBotonGuardar = e => {
         e.preventDefault();
         console.log(e.target.value);
+        props.addUsuario(usuario);
     }
 
     const manejaCambiosInputs = e =>{        
         const {name,value} = e.target;
         console.log(name,value);
         setUsuario({...usuario, [name]: value})
+        
     }
 
 
