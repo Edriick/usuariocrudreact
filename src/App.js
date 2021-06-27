@@ -5,9 +5,11 @@ import UsuarioFormulario from './componentes/UsuarioFormulario';
 
 function App() {
   return (
-    <div className="App">
-      <UsuarioFormulario/>
-      <Usuario/>
+    <div className="container p-4">
+      <div className="row">
+        <UsuarioFormulario/>
+        <Usuario/>
+      </div>      
     </div>
   );
 }
