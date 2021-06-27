@@ -6,17 +6,28 @@ const Usuario = () => {
 
     const[usuarios, setUsuarios]= useState([])
     
+    const[idActual,setIdActual] = useState('');
+
     //Añadir Usuario
     const addUsuario = async (usuario) =>{
         await db.collection('TBL_USUARIO').doc().set(usuario)
-        console.log('añadido');
+        alert('Se añadio correctamente el usuario');
     }
+
+
+    //Editar Usuario
+    const editarUsuario = async (usuario) =>{
+        await db.collection('TBL_USUARIO').doc(idActual).update(usuario)
+        alert('Se edito correctamente el usuario');
+        setIdActual('');
+    }
+
 
     //Eliminar Usuario
     const eliminarUsuario = async (id) =>{
         if(window.confirm('seguro de quieres eliminar?')){
             await db.collection('TBL_USUARIO').doc(id).delete();
-            console.log('eliminado');
+            alert('Se elimino correctamente el usuario');
         }
     }
 
@@ -37,7 +48,7 @@ const Usuario = () => {
 
     return ( 
     <>
-        <UsuarioFormulario addUsuario={addUsuario}
+        <UsuarioFormulario {...{addUsuario,editarUsuario,idActual,usuarios}}
         />
         <div>
         <table className="table">
@@ -48,8 +59,8 @@ const Usuario = () => {
                 <th scope="col">Cédula</th>
                 <th scope="col">Teléfono</th>
                 <th scope="col">Mail</th>
-                <th scope="col"></th>
-                <th scope="col"></th>
+                <th scope="col">Editar</th>
+                <th scope="col">Eliminar</th>
             </tr>
             </thead>
             <tbody>
@@ -61,7 +72,7 @@ const Usuario = () => {
                                 <td>{user.cedula_usuario}</td>
                                 <td>{user.telefono_usuario}</td>
                                 <td>{user.mail_usuario}</td>
-                                <td></td>
+                                <td><i className="material-icons" onClick={() => setIdActual(user.id_usuario)}>create</i></td>
                                 <td><i className="material-icons text-danger" onClick={() => eliminarUsuario(user.id_usuario)}>close</i></td>
                             </tr>
                 })}      

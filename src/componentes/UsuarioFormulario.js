@@ -1,4 +1,5 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
+import { db } from '../firebase'
 
 const UsuarioFormulario = (props) => {
 
@@ -12,16 +13,35 @@ const UsuarioFormulario = (props) => {
 
     const accionBotonGuardar = e => {
         e.preventDefault();        
-        props.addUsuario(usuario);
+        if(props.idActual === ''){
+            props.addUsuario(usuario);
+        }else{
+            props.editarUsuario(usuario);
+        }
+        
         setUsuario({...usuarioInicial})
     }
 
     const manejaCambiosInputs = e =>{        
         const {name,value} = e.target;
-        console.log(name,value);
         setUsuario({...usuario, [name]: value})
         
     }
+
+    //editar
+    const obtenerUsuarioId = async (id) =>{
+        const user = await db.collection('TBL_USUARIO').doc(id).get();
+        console.log(user.data());
+        setUsuario({...user.data()})
+    }
+
+    useEffect(()=>{
+        if(props.idActual === ''){
+            setUsuario({...usuarioInicial});
+        }else{
+            obtenerUsuarioId(props.idActual);
+        }
+    },[props.idActual])
 
 
     return ( 
@@ -65,7 +85,7 @@ const UsuarioFormulario = (props) => {
             </div>
             
             <button className="btn btn-primary btn-block">
-                Guardar
+                {props.idActual === ''?'Guardar Nuevo':'Editar'}
             </button>
             
         </form>
