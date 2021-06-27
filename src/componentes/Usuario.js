@@ -5,13 +5,22 @@ import {db} from '../firebase'
 const Usuario = () => {
 
     const[usuarios, setUsuarios]= useState([])
+    
     //Añadir Usuario
     const addUsuario = async (usuario) =>{
         await db.collection('TBL_USUARIO').doc().set(usuario)
         console.log('añadido');
     }
 
-    //cargar datos tabla
+    //Eliminar Usuario
+    const eliminarUsuario = async (id) =>{
+        if(window.confirm('seguro de quieres eliminar?')){
+            await db.collection('TBL_USUARIO').doc(id).delete();
+            console.log('eliminado');
+        }
+    }
+
+    //cargar datos reporte
     const getUsuarios = async ()=>{
         db.collection('TBL_USUARIO').onSnapshot((respuesta)=>{
             const usuarios = [];
@@ -53,7 +62,7 @@ const Usuario = () => {
                                 <td>{user.telefono_usuario}</td>
                                 <td>{user.mail_usuario}</td>
                                 <td></td>
-                                <td><i className="material-icons text-danger">close</i></td>
+                                <td><i className="material-icons text-danger" onClick={() => eliminarUsuario(user.id_usuario)}>close</i></td>
                             </tr>
                 })}      
             
